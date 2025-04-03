@@ -7,11 +7,13 @@ using var host = Host.CreateDefaultBuilder(args)
     .ConfigureServices((context, services) =>
     {
         // IMPORTANT!!! STORE KEY IN SECURE WAY
-        var keyFromVault = "BgAEAyQFBIULBhEXCRIjFhssAScNGzMOAAAAAAAAAAA=";
+        var keyFromVault = "bl9Wb+Gzn1TLzPEG47ypBf6CcZPDYcIJw7XCi/7aCSs=";
+        var ivFromVault = "eaPymshZlcH0vxXCEZEucw==";
 
         services.Configure<EncryptionOptions>(opts =>
         {
             opts.EncryptionKeyBase64 = keyFromVault;
+            opts.EncryptionIVBase64 = ivFromVault;
         });
 
         services.AddDbContext<AppDbContext>(dbOptions =>

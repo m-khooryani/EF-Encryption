@@ -8,6 +8,7 @@ namespace SampleLib;
 public class AppDbContext : DbContext
 {
     private readonly byte[] _aesKey;
+    private readonly byte[] _aesIv;
 
     public AppDbContext(DbContextOptions<AppDbContext> options, IOptions<EncryptionOptions> encryptionOptions)
         : base(options)
@@ -18,6 +19,7 @@ public class AppDbContext : DbContext
         }
 
         _aesKey = Convert.FromBase64String(encryptionOptions.Value.EncryptionKeyBase64);
+        _aesIv = Convert.FromBase64String(encryptionOptions.Value.EncryptionIVBase64);
     }
 
     public DbSet<Person> People { get; set; }
@@ -34,7 +36,7 @@ public class AppDbContext : DbContext
                 if (memberInfo != null && memberInfo.GetCustomAttribute<SensitiveDataAttribute>() != null)
                 {
                     var converterType = typeof(AesEncryptedConverter<>).MakeGenericType(property.ClrType);
-                    var converterInstance = Activator.CreateInstance(converterType, _aesKey) as ValueConverter;
+                    var converterInstance = Activator.CreateInstance(converterType, _aesKey, _aesIv) as ValueConverter;
                     property.SetValueConverter(converterInstance);
                 }
             }
