@@ -12,4 +12,7 @@ public class Person
 
     [SensitiveData]
     public int SecretCode { get; set; }
+
+    [SensitiveData]
+    public DateTimeOffset? CreatedDate { get; set; } = DateTimeOffset.Now;
 }

@@ -42,12 +42,13 @@ context.SaveChanges();
 Console.WriteLine("=== Data saved to EF with AES encryption ===");
 
 // Re-load from DB to prove decryption works
-var reloaded = context.People.FirstOrDefault(p => p.Id == person.Id);
+var reloaded = context.People.FirstOrDefault(p => p.Id == 1);
 if (reloaded != null)
 {
     Console.WriteLine($"Name: {reloaded.Name}");
     Console.WriteLine($"SSN: {reloaded.SocialSecurityNumber}  (decrypted by EF)");
     Console.WriteLine($"SecretCode: {reloaded.SecretCode}     (decrypted by EF)");
+    Console.WriteLine($"CreatedAt: {reloaded.CreatedDate}     (decrypted by EF)");
 }
 
 Console.WriteLine("\nPress any key to exit...");
